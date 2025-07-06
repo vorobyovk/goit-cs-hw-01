@@ -2,36 +2,39 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Збірка NASM",
+      "label": "assemble",
       "type": "shell",
-      "command": "nasm",
+      "command": "ml64.exe",
       "args": [
-        "-f",
-        "bin",
-        "${file}",
-        "-o",
-        "${fileDirname}/${fileBasenameNoExtension}.com"
+        "/c",
+        "/Fo",
+        "${fileDirname}\\${fileBasenameNoExtension}.obj",
+        "${file}"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "link",
+      "type": "shell",
+      "command": "link.exe",
+      "args": [
+        "${fileDirname}\\${fileBasenameNoExtension}.obj",
+        "/SUBSYSTEM:CONSOLE",
+        "/ENTRY:main",
+        "/OUT:${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.22621.0\\ucrt\\x64",
+        "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.22621.0\\um\\x64",
+        "legacy_stdio_definitions.lib",
+        "kernel32.lib",
+        "ucrt.lib"
       ],
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": {
-        "owner": "custom",
-        "fileLocation": ["relative", "${workspaceFolder}"],
-        "pattern": {
-          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "column": 3,
-          "severity": 4,
-          "message": 5
-        }
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
+      "dependsOn": "assemble",
+      "problemMatcher": []
     }
   ]
 }
