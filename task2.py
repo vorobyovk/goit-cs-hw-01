@@ -1,10 +1,8 @@
 class LexicalError(Exception):
     pass
 
-
 class ParsingError(Exception):
     pass
-
 
 class TokenType:
     INTEGER = "INTEGER"
@@ -16,7 +14,6 @@ class TokenType:
     RPAREN = "RPAREN"
     EOF = "EOF"  # Означає кінець вхідного рядка
 
-
 class Token:
     def __init__(self, type, value):
         self.type = type
@@ -24,7 +21,6 @@ class Token:
 
     def __str__(self):
         return f"Token({self.type}, {repr(self.value)})"
-
 
 class Lexer:
     def __init__(self, text):
@@ -91,10 +87,8 @@ class Lexer:
 
         return Token(TokenType.EOF, None)
 
-
 class AST:
     pass
-
 
 class BinOp(AST):
     def __init__(self, left, op, right):
@@ -102,12 +96,10 @@ class BinOp(AST):
         self.op = op
         self.right = right
 
-
 class Num(AST):
     def __init__(self, token):
         self.token = token
         self.value = token.value
-
 
 class Parser:
     def __init__(self, lexer):
@@ -169,7 +161,6 @@ class Parser:
 
         return node
 
-
 def print_ast(node, level=0):
     indent = "  " * level
     if isinstance(node, Num):
@@ -183,7 +174,6 @@ def print_ast(node, level=0):
         print_ast(node.right, level + 2)
     else:
         print(f"{indent}Unknown node type: {type(node)}")
-
 
 class Interpreter:
     def __init__(self, parser):
@@ -214,7 +204,6 @@ class Interpreter:
     def generic_visit(self, node):
         raise Exception(f"Немає методу visit_{type(node).__name__}")
 
-
 def main():
     while True:
         try:
@@ -229,7 +218,6 @@ def main():
             print(result)
         except Exception as e:
             print(e)
-
 
 if __name__ == "__main__":
     main()
